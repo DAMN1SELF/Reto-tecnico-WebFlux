@@ -56,7 +56,9 @@ public class AlumnoController {
             description = "Si 'estado' se omite => lista todos. Si se envía => filtra por ACTIVO/INACTIVO."
     )
     @GetMapping()
-    public ResponseEntity<Flux<AlumnoResponse>> listar(@RequestParam(required = false) Estado estado) {
+    public ResponseEntity<Flux<AlumnoResponse>> listar(
+            @RequestParam(required = false) Estado estado
+    ) {
         var flux = (estado == null) ? service.listarAlumnos() : service.listarByEstado(estado);
         return ResponseEntity.ok(flux.map(mapper::toResponse));
     }

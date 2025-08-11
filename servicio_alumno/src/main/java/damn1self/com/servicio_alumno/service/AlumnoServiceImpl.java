@@ -22,7 +22,7 @@ public class AlumnoServiceImpl implements AlumnoService {
     public Mono<Void> crear(Alumno alumno) {
         return repo.existsByAlumnoId(alumno.getAlumnoId())
                 .flatMap(exists -> exists
-                        ? Mono.<Void>error(new DuplicateKeyException("id ya existe -> SERVICE"))
+                        ? Mono.<Void>error(new DuplicateKeyException("id ya existe PERSONALIZADO"))
                         : repo.save(alumno).then()
                 );
     }

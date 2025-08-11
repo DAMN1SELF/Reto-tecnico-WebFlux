@@ -13,8 +13,7 @@ public class EstadoConverter implements Converter<String, Estado> {
         try {
             return Estado.valueOf(s.trim().toUpperCase());
         } catch (Exception e) {
-            // Deja el mensaje claro aquí:
-            throw new IllegalArgumentException("estado debe ser ACTIVO o INACTIVO");
+            throw new ServerWebInputException("estado debe ser ACTIVO o INACTIVO");
         }
     }
 }
