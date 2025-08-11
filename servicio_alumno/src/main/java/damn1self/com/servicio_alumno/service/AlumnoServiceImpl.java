@@ -22,13 +22,18 @@ public class AlumnoServiceImpl implements AlumnoService {
     public Mono<Void> crear(Alumno alumno) {
         return repo.existsByAlumnoId(alumno.getAlumnoId())
                 .flatMap(exists -> exists
-                        ? Mono.<Void>error(new DuplicateKeyException("id ya existe"))
+                        ? Mono.<Void>error(new DuplicateKeyException("id ya existe -> SERVICE"))
                         : repo.save(alumno).then()
                 );
     }
 
     @Override
-    public Flux<Alumno> listarActivos() {
-        return repo.findByEstado(Estado.ACTIVO);
+    public Flux<Alumno> listarByEstado(Estado estado) {
+        return repo.findByEstado(estado);
+    }
+
+    @Override
+    public Flux<Alumno> listarAlumnos() {
+        return repo.findAll();
     }
 }
