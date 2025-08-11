@@ -5,9 +5,28 @@ import jakarta.validation.constraints.*;
 
 @Schema(description = "Solicitud para crear/actualizar alumno")
 public record AlumnoRequest(
-        @Schema(example = "1") @NotNull @Positive Long id,                 // <- id de negocio
-        @Schema(example = "Bernabe Daniel") @NotBlank @Size(min = 2, max = 120) String nombre,
-        @Schema(example = "Inche Ticlavilca") @NotBlank @Size(min = 2, max = 120) String apellido,
-        @Schema(example = "ACTIVO") @NotNull Estado estado,
-        @Schema(example = "31") @NotNull @Min(18) @Max(120) Integer edad
+        @Schema(example = "101")
+        @NotNull(message = "id es obligatorio")
+        @Positive(message = "id debe ser positivo")
+        Long id,                // <- id de negocio
+        @Schema(example = "Bernabe Daniel")
+        @NotBlank(message = "nombre es obligatorio")
+        @Size(min = 2, max = 120, message = "nombre debe tener entre 2 y 120 caracteres")
+        @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "nombre solo acepta letras y espacios")
+        String nombre,
+        @Schema(example = "Inche Ticlavilca")
+        @NotBlank(message = "apellido es obligatorio")
+        @Size(min = 2, max = 200, message = "apellido debe tener entre 2 y 200 caracteres")
+        @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "apellido solo acepta letras y espacios")
+        String apellido,
+
+        @Schema(example = "ACTIVO/INACTIVO")
+        @NotNull(message = "estado es obligatorio")
+        Estado estado,
+
+        @Schema(example = "31")
+        @NotNull(message = "edad es obligatoria")
+        @Min(value = 16, message = "edad mínima 16")
+        @Max(value = 120, message = "edad máxima 120")
+        Integer edad
 ) {}

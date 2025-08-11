@@ -55,25 +55,9 @@ public class AlumnoController {
             summary = "Listar alumnos",
             description = "Si 'estado' se omite => lista todos. Si se envía => filtra por ACTIVO/INACTIVO."
     )
-    @GetMapping
-    public ResponseEntity<Flux<AlumnoResponse>> listar(
-            @Parameter(description = "Filtra por estado", schema = @Schema(allowableValues = {"ACTIVO", "INACTIVO"}))
-            @RequestParam(value = "estado", required = false) String estado) {
-
-        Flux<Alumno> flux;
-        if (estado == null || estado.isBlank()) {
-            flux = service.listarAlumnos();
-        } else {
-            final Estado e;
-            try {
-                e = Estado.valueOf(estado.trim().toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "estado debe ser ACTIVO o INACTIVO");
-            }
-            flux = service.listarByEstado(e);
-        }
+    @GetMapping()
+    public ResponseEntity<Flux<AlumnoResponse>> listar(@RequestParam(required = false) Estado estado) {
+        var flux = (estado == null) ? service.listarAlumnos() : service.listarByEstado(estado);
         return ResponseEntity.ok(flux.map(mapper::toResponse));
-
-        //return ResponseEntity.ok(service.listarActivos().map(mapper::toResponse));
     }
 }
