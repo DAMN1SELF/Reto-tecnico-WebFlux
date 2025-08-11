@@ -8,8 +8,7 @@ import reactor.core.publisher.Mono;
 
 public interface AlumnoRepository extends ReactiveMongoRepository<Alumno, String> {
 
-    Mono<Boolean> existsByIdAlumno(Long idAlumno);
-    Mono<Alumno> findByIdAlumno(Long idAlumno);
+    Mono<Boolean> existsByAlumnoId(Long alumnoId);
     Flux<Alumno> findByEstado(Estado estado);
 
 }

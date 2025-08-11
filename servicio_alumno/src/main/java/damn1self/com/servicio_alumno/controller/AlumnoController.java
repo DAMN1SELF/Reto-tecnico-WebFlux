@@ -1,5 +1,8 @@
 package damn1self.com.servicio_alumno.controller;
 
+import damn1self.com.servicio_alumno.dto.AlumnoRequest;
+import damn1self.com.servicio_alumno.dto.AlumnoResponse;
+import damn1self.com.servicio_alumno.mapper.AlumnoMapper;
 import damn1self.com.servicio_alumno.model.Alumno;
 import damn1self.com.servicio_alumno.service.AlumnoService;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +22,20 @@ import jakarta.validation.Valid;
 public class AlumnoController {
 
     private final AlumnoService service;
+    private final AlumnoMapper mapper;
 
     // POST /alumnos -> 204 si OK, 409 si id duplicado
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<Void>> crear(@Valid @RequestBody Alumno alumno) {
-        return service.crear(alumno) // Mono<Void>
+    public Mono<ResponseEntity<Void>> crear(@Valid @RequestBody AlumnoRequest alumno) {
+        return service.crear(mapper.toEntity(alumno))
                 .thenReturn(ResponseEntity.noContent().<Void>build());
-//                .onErrorResume(DuplicateKeyException.class,
-//                        e -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).<Void>build()));
+//              .onErrorResume(DuplicateKeyException.class,
+//                      e -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).<Void>build()));
     }
 
     // GET /alumnos?estado=ACTIVO -> por requerimiento listamos los ACTIVO
     @GetMapping
-    public ResponseEntity<Flux<Alumno>> listarActivos(
-            @RequestParam(value = "estado", required = false) String estado) {
-        return ResponseEntity.ok(service.listarActivos());
+    public ResponseEntity<Flux<AlumnoResponse>> listarActivos() {
+        return ResponseEntity.ok(service.listarActivos().map(mapper::toResponse));
     }
 }

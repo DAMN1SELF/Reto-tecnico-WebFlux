@@ -40,7 +40,7 @@ public class GlobalErrorHandler {
         ProblemDetail body = base(
                 HttpStatus.CONFLICT,
                 "Registro duplicado",
-                ex.getMessage() != null ? ex.getMessage() : "El id ya existe xd",
+                ex.getMessage() != null ? ex.getMessage() : "El identificador ya existe, intenta con otro",
                 request
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
