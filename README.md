@@ -11,7 +11,7 @@ Microservicio **reactivo** (Spring **WebFlux** + **Java 17**) para gestionar alu
 
 - **POST** `/alumnos` → Crea un alumno validando campos y **unicidad (nombre+apellido)**.
   - **204 No Content** (respuesta vacía) — implementación actual.  
-  - **201 Created** (alternativa) con header `Location`.  
+  - **201 Created** (alternativa) con header `Location`.  *ELIMINADO*
   - **409 Conflict** si (nombre, apellido) ya existe.  
   - **400 Bad Request** por validaciones del DTO (manejadas globalmente).
 
@@ -40,7 +40,7 @@ Microservicio **reactivo** (Spring **WebFlux** + **Java 17**) para gestionar alu
 - Build: **Maven**
 </details>
 
-<details>
+<details open>
   <summary><strong>Swagger / Run rápido</strong></summary>
 
 - Swagger UI: `http://localhost:8091/swagger-ui.html`  
