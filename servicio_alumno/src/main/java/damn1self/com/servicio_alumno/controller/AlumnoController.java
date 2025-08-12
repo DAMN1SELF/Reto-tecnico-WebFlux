@@ -34,13 +34,13 @@ public class AlumnoController {
     // ---------------------------------------------------------
     // POST /alumnos
     // ---------------------------------------------------------
-    @Operation(summary = "Crear alumno", description = "Devuelve 204 si se crea, 409 si el id ya existe")
+    @Operation(summary = "Crear alumno", description = " Graba un alumno validando campos y unicidad del id.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Creado"),
             @ApiResponse(responseCode = "409", description = "Duplicado"),
             @ApiResponse(responseCode = "400", description = "Validación")
     })
-    @PostMapping( consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<AlumnoResponse>> crear(@Valid @RequestBody AlumnoRequest alumno) {
         return service.crear(mapper.toEntity(alumno))
                 .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
