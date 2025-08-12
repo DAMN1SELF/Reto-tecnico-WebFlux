@@ -1,0 +1,9 @@
+spring:
+  main:
+    banner-mode:"off"
+  jackson:
+    default-property-inclusion: non_null
+logging:
+  level:
+    root: WARN
+    org.springframework.test: INFO

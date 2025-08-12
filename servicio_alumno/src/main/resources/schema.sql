@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS tmAlumno (
     apellido VARCHAR(120) NOT NULL,
     estado VARCHAR(20) NOT NULL,
     edad INT NOT NULL,
-    PRIMARY KEY (id)
-);
+    PRIMARY KEY (id),
+    CONSTRAINT uq_tm_alumno_nombre_apellido UNIQUE (nombre, apellido)
+    );
