@@ -6,16 +6,7 @@
 Microservicio **reactivo** (Spring **WebFlux** + **Java 17**).
 </details>
 
-<details>
-  <summary><strong>Arquitectura CAPAS</strong></summary>
-
-- Controller (HTTP)  
-- Service (lógica)  
-- Repository (R2DBC)  
-- Soporte: DTO, mapper, validation, advice (errores)
-</details>
-
-<details>
+<details open>
   <summary><strong>Endpoints</strong></summary>
 
 - **POST** `/alumnos` → Graba un alumno validando campos y unicidad (nombre+apellido).
@@ -24,13 +15,20 @@ Microservicio **reactivo** (Spring **WebFlux** + **Java 17**).
   - **400 Bad Request** por validaciones del DTO (manejado por el error handler global).
 
 - **GET** `/alumnos?estado=ACTIVO` → Lista alumnos filtrando por estado.
-</details>
+</details >
 
-<details>
+<details open>
   <summary><strong>Persistencia y arquitectura</strong></summary>
 
 - Persistencia en **H2** (memoria/archivo) con **Spring Data R2DBC**.  
-- Arquitectura por **capas** (controller, service, repository).
+- Arquitectura por **capas** .
+    <details>
+    <summary><strong>Arquitectura CAPAS</strong></summary>
+    - Controller (HTTP)  
+    - Service (lógica)  
+    - Repository (R2DBC)  
+    - Soporte: DTO, mapper, validation, advice (errores)
+    </details>
 </details>
 
 <details>
