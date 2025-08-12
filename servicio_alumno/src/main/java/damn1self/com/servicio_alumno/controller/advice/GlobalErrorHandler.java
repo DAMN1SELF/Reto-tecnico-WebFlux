@@ -52,7 +52,10 @@ public class GlobalErrorHandler {
     // 409 - Duplicado
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<ProblemDetail> handleDup(DuplicateKeyException ex, ServerHttpRequest req) {
-        ProblemDetail body = pd(HttpStatus.CONFLICT, "Registro duplicado", "El identificador ya existe.", req);
+        String detail = (ex.getMessage() == null || ex.getMessage().isBlank())
+                ? "Registro duplicado."
+                : ex.getMessage();
+        ProblemDetail body = pd(HttpStatus.CONFLICT, "Registro duplicado", detail, req);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 }

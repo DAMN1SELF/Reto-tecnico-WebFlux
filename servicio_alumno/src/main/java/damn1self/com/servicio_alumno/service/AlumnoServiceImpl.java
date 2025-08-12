@@ -20,12 +20,18 @@ public class AlumnoServiceImpl implements AlumnoService {
 //    }
     @Override
     public Mono<Alumno> crear(Alumno alumno) {
-        return repo.existsByAlumnoId(alumno.getAlumnoId())
+        var nombres=alumno.getNombre().toUpperCase().trim();
+        var apellidos=alumno.getApellido().toUpperCase().trim();
+
+        return repo.existsByNombreIgnoreCaseAndApellidoIgnoreCase(nombres,apellidos)
                 .flatMap(exists -> {
                     if (exists) {
-                        return Mono.error(new DuplicateKeyException("id ya existe PERSONALIZADO"));
+                        String msg = "El alumno ya existe (%s %s)".formatted(nombres, apellidos);
+                        return Mono.error(new DuplicateKeyException(msg));
                     }
-                    return repo.save(alumno); // <-- aquí el Mono emite el Alumno
+                    alumno.setNombre(nombres);
+                    alumno.setApellido(apellidos);
+                    return repo.save(alumno);
                 });
     }
 
