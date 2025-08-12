@@ -57,7 +57,7 @@ public class AlumnoController {
     )
     @GetMapping()
     public ResponseEntity<Flux<AlumnoResponse>> listar(
-            @RequestParam(required = false) Estado estado
+            @RequestParam(name = "estado", required = false) Estado estado
     ) {
         var flux = (estado == null) ? service.listarAlumnos() : service.listarByEstado(estado);
         return ResponseEntity.ok(flux.map(mapper::toResponse));
