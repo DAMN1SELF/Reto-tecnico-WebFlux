@@ -4,22 +4,24 @@
 
 # Servicio Alumno — WebFlux + R2DBC + H2
 
-#  Arquitectura **CAPAS**
+## Arquitectura **CAPAS**
 ---
-Controller (HTTP)
-Service (lógica)
-Repository (R2DBC)
-H2 Soporte: dto, mapper, validation, advice (errores)
+ * Controller (HTTP)
+ * Service (lógica)
+ * Repository (R2DBC)
+ * H2 Soporte: dto, mapper, validation, advice (errores)
 ---
 
 ## Endpoints
 
 * **POST** `/alumnos` → Graba un alumno validando campos y **unicidad del `id`**.
 
-  * Si el `id` ya existe → **409 Conflict** (mensaje claro).
-  * Si todo OK → **204 No Content** *(respuesta vacía, como pide el reto)*.
+  * 409 Conflict si (nombre, apellido) ya existe. Si el `id` ya existe → **409 Conflict** (mensaje claro). sustituido por un UUID 
+  * 204 **No Content**  Crea alumno sin body *(respuesta vacía, como pide el reto)*. anteriormente 201 **Created**
+  * 400 **Validation** Valid de dto manejadas por errores globales.
     
 * **GET** `/alumnos?estado=ACTIVO` → Lista alumnos con **estado ACTIVO**.
+  *
 
 ## Persistencia y arquitectura
 
@@ -30,6 +32,9 @@ H2 Soporte: dto, mapper, validation, advice (errores)
 
 * **Java 17**, **Spring Boot 3.5.4
 * **Spring WebFlux** *(reactivo)*
-* **Spring Data MongoDB**
+* **Spring Data R2DBC**
+* **Database H2**
 * **Lombox**
-* Build: **Gradle (Maven)**
+* **MapStruck**
+* **springdoc-openapi (Swagger UI)**
+* Build: **Maven**
