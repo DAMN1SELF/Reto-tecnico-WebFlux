@@ -1,40 +1,45 @@
-
-
-### Microservicio **reactivo** (Spring **WebFlux** + **Java 17**) que expone:
-
 # Servicio Alumno — WebFlux + R2DBC + H2
 
-## Arquitectura **CAPAS**
----
- * Controller (HTTP)
- * Service (lógica)
- * Repository (R2DBC)
- * H2 Soporte: dto, mapper, validation, advice (errores)
----
+<details open>
+  <summary><strong>Descripción</strong></summary>
 
-## Endpoints
+Microservicio **reactivo** (Spring **WebFlux** + **Java 17**).
+</details>
 
-* **POST** `/alumnos` → Graba un alumno validando campos y **unicidad del `id`**.
+<details>
+  <summary><strong>Arquitectura CAPAS</strong></summary>
 
-  * 409 Conflict si (nombre, apellido) ya existe. Si el `id` ya existe → **409 Conflict** (mensaje claro). sustituido por un UUID 
-  * 204 **No Content**  Crea alumno sin body *(respuesta vacía, como pide el reto)*. anteriormente 201 **Created**
-  * 400 **Validation** Valid de dto manejadas por errores globales.
-    
-* **GET** `/alumnos?estado=ACTIVO` → Lista alumnos con **estado ACTIVO**.
-  *
+- Controller (HTTP)  
+- Service (lógica)  
+- Repository (R2DBC)  
+- Soporte: DTO, mapper, validation, advice (errores)
+</details>
 
-## Persistencia y arquitectura
+<details>
+  <summary><strong>Endpoints</strong></summary>
 
-* Persistencia **en memoria** con **Mongo DB**.
-* Arquitectura propuesta: capas de la aplicación (controller, service y repository)
+- **POST** `/alumnos` → Graba un alumno validando campos y unicidad (nombre+apellido).
+  - **409 Conflict** si (nombre, apellido) ya existe.
+  - **204 No Content** (respuesta vacía) o **201 Created** con `Location` (según tu implementación).
+  - **400 Bad Request** por validaciones del DTO (manejado por el error handler global).
 
-## 🚀 Stack
+- **GET** `/alumnos?estado=ACTIVO` → Lista alumnos filtrando por estado.
+</details>
 
-* **Java 17**, **Spring Boot 3.5.4
-* **Spring WebFlux** *(reactivo)*
-* **Spring Data R2DBC**
-* **Database H2**
-* **Lombox**
-* **MapStruck**
-* **springdoc-openapi (Swagger UI)**
-* Build: **Maven**
+<details>
+  <summary><strong>Persistencia y arquitectura</strong></summary>
+
+- Persistencia en **H2** (memoria/archivo) con **Spring Data R2DBC**.  
+- Arquitectura por **capas** (controller, service, repository).
+</details>
+
+<details>
+  <summary><strong>Stack</strong></summary>
+
+- **Java 17**, **Spring Boot 3.5.4**  
+- **Spring WebFlux** (reactivo)  
+- **Spring Data R2DBC**, **H2**  
+- **Lombok**, **MapStruct**  
+- **springdoc-openapi (Swagger UI)**  
+- Build: **Maven**
+</details>
