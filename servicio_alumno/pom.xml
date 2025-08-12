@@ -31,6 +31,7 @@
             <org.projectlombok.version>1.18.34</org.projectlombok.version>
             <org.mapstruct.version>1.6.2</org.mapstruct.version>
             <mapstruct-lombok.version>0.2.0</mapstruct-lombok.version>
+            <springdoc.version>2.8.9</springdoc.version>
     </properties>
     <dependencies>
         <!-- WebFlux -->
@@ -58,7 +59,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>2.6.0</version>
+            <version>${springdoc.version}</version>
         </dependency>
         <!-- MapStruct (mapper) -->
         <dependency>
@@ -118,9 +119,7 @@
                             <version>${mapstruct-lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <compilerArgs>
-                    <arg>-Amapstruct.defaultComponentModel=jsr330</arg>
-                </compilerArgs>
+
                 </configuration>
 
             </plugin>
