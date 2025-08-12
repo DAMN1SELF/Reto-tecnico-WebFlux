@@ -10,16 +10,15 @@ import org.mapstruct.*;
 public interface AlumnoMapper {
 
     // AlumnoRequest (record) -> Alumno (entity)
-    @Mapping(target = "mongoId", ignore = true)
-    @Mapping(target = "alumnoId",  source = "alumno_id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "nombre",   source = "alumno_nombres")
     @Mapping(target = "apellido", source = "alumnos_apellidos")
     @Mapping(target = "estado", source = "alumno_estado")
     @Mapping(target = "edad",      source = "alumno_edad")
     Alumno toEntity(AlumnoRequest alumnoInput);
 
-    // Alumno (entity, camelCase) -> AlumnoResponse (record, snake_case)
-    @Mapping(target = "alumno_id",        source = "alumnoId")
+    // Alumno (entity) -> AlumnoResponse (record)
+    @Mapping(target = "alumno_id",        source = "id")
     @Mapping(target = "alumno_nombres",   source = "nombre")
     @Mapping(target = "alumno_apellidos", source = "apellido")
     @Mapping(target = "alumno_estado",    source = "estado")

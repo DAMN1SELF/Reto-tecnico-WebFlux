@@ -7,14 +7,10 @@ import jakarta.validation.constraints.*;
 @Schema(description = "Solicitud para crear/actualizar alumno")
 public record AlumnoRequest(
 
-        @Schema(example = "101")
-        @NotNull(message = "id es obligatorio")
-        @Positive(message = "id debe ser positivo")
-        Long alumno_id,                // <- id de negocio
 
         @Schema(example = "Bernabe Daniel")
         @NotBlank(message = "nombre es obligatorio")
-        @Size(min = 2, max = 120, message = "nombre debe tener entre 2 y 120 caracteres")
+        @Size(min = 2, max = 160, message = "nombre debe tener entre 2 y 160 caracteres")
         @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$", message = "nombre solo acepta letras y espacios")
         String alumno_nombres,
 
