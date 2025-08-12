@@ -1,5 +1,16 @@
 
-Microservicio **reactivo** (Spring **WebFlux** + **Java 17**) que expone:
+
+### Microservicio **reactivo** (Spring **WebFlux** + **Java 17**) que expone:
+
+# Servicio Alumno — WebFlux + R2DBC + H2
+
+#  Arquitectura **CAPAS**
+---
+Controller (HTTP)
+Service (lógica)
+Repository (R2DBC)
+H2 Soporte: dto, mapper, validation, advice (errores)
+---
 
 ## Endpoints
 
