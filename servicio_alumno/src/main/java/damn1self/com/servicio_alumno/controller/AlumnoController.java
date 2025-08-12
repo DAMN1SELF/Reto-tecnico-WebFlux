@@ -8,6 +8,8 @@ import damn1self.com.servicio_alumno.model.Estado;
 import damn1self.com.servicio_alumno.service.AlumnoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -34,20 +36,30 @@ public class AlumnoController {
     // ---------------------------------------------------------
     // POST /alumnos
     // ---------------------------------------------------------
-    @Operation(summary = "Crear alumno", description = " Graba un alumno validando campos y unicidad del id.")
+    @Operation(
+            summary = "Crear alumno",
+            description = "Crea un alumno. El ID se asigna en la BD."
+    )
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Creado"),
-            @ApiResponse(responseCode = "409", description = "Duplicado"),
-            @ApiResponse(responseCode = "400", description = "Validación")
+            @ApiResponse( responseCode = "204",description = "Creado sin contenido",
+                    content = @Content(
+                            schema = @Schema(hidden = true))),
+//            @ApiResponse(responseCode = "201", description = "Creado",
+//                    content = @Content(mediaType="application/json",
+//                            schema = @Schema(implementation = AlumnoResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Validación fallida",
+                    content = @Content(mediaType="application/problem+json",
+                            schema = @Schema(implementation = org.springframework.http.ProblemDetail.class))),
+            @ApiResponse(responseCode = "409", description = "Duplicado (nombre+apellido)",
+                    content = @Content(mediaType="application/problem+json",
+                            schema = @Schema(implementation = org.springframework.http.ProblemDetail.class)))
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<AlumnoResponse>> crear(@Valid @RequestBody AlumnoRequest alumno) {
+    public Mono<ResponseEntity<Void>> crear(@Valid @RequestBody AlumnoRequest alumno) {
         return service.crear(mapper.toEntity(alumno))
-                .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
-                        .body(mapper.toResponse(saved)));
-//     return service.crear(mapper.toEntity(alumno))
-//              .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
-//                      .body(saved));
+//                .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
+//                        .body(mapper.toResponse(saved)))
+                .then(Mono.just(ResponseEntity.noContent().build()));
 //              .onErrorResume(DuplicateKeyException.class,
 //                      e -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).<Void>build()));
     }
@@ -55,10 +67,11 @@ public class AlumnoController {
     // ---------------------------------------------------------
     // GET /alumnos?estado=ACTIVO|INACTIVO (si no se envía => todos)
     // ---------------------------------------------------------
-    @Operation(
-            summary = "Listar alumnos",
-            description = "Si 'estado' se omite => lista todos. Si se envía => filtra por ACTIVO/INACTIVO."
-    )
+    @Operation(summary = "Listar alumnos", description = "Permite filtrar por estado")
+    @Parameters({
+            @Parameter(name = "estado", description = "Estado del alumno",
+                    schema = @Schema(implementation = Estado.class))
+    })
     @GetMapping()
     public ResponseEntity<Flux<AlumnoResponse>> listar(
             @RequestParam(name = "estado", required = false) Estado estado
