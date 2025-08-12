@@ -19,12 +19,14 @@ public class AlumnoServiceImpl implements AlumnoService {
 //        this.repo = repo;
 //    }
     @Override
-    public Mono<Void> crear(Alumno alumno) {
+    public Mono<Alumno> crear(Alumno alumno) {
         return repo.existsByAlumnoId(alumno.getAlumnoId())
-                .flatMap(exists -> exists
-                        ? Mono.<Void>error(new DuplicateKeyException("id ya existe PERSONALIZADO"))
-                        : repo.save(alumno).then()
-                );
+                .flatMap(exists -> {
+                    if (exists) {
+                        return Mono.error(new DuplicateKeyException("id ya existe PERSONALIZADO"));
+                    }
+                    return repo.save(alumno); // <-- aquí el Mono emite el Alumno
+                });
     }
 
     @Override

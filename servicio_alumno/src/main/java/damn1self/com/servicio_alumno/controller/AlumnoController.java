@@ -36,14 +36,18 @@ public class AlumnoController {
     // ---------------------------------------------------------
     @Operation(summary = "Crear alumno", description = "Devuelve 204 si se crea, 409 si el id ya existe")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Creado"),
+            @ApiResponse(responseCode = "201", description = "Creado"),
             @ApiResponse(responseCode = "409", description = "Duplicado"),
             @ApiResponse(responseCode = "400", description = "Validación")
     })
     @PostMapping( consumes=MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<Void>> crear(@Valid @RequestBody AlumnoRequest alumno) {
+    public Mono<ResponseEntity<AlumnoResponse>> crear(@Valid @RequestBody AlumnoRequest alumno) {
         return service.crear(mapper.toEntity(alumno))
-                .thenReturn(ResponseEntity.noContent().<Void>build());
+                .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
+                        .body(mapper.toResponse(saved)));
+//     return service.crear(mapper.toEntity(alumno))
+//              .map(saved -> ResponseEntity.status(HttpStatus.CREATED)
+//                      .body(saved));
 //              .onErrorResume(DuplicateKeyException.class,
 //                      e -> Mono.just(ResponseEntity.status(HttpStatus.CONFLICT).<Void>build()));
     }

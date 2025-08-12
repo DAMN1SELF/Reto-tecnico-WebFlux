@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface  AlumnoService {
-    Mono<Void> crear(Alumno alumno);
+    Mono<Alumno> crear(Alumno alumno);
     Flux<Alumno> listarByEstado(Estado estado);
     Flux<Alumno> listarAlumnos();
 }
