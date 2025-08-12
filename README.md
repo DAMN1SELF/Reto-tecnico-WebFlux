@@ -24,14 +24,14 @@ Microservicio **reactivo** (Spring **WebFlux** + **Java 17**).
 - Arquitectura por **capas** .
     <details>
     <summary><strong>Arquitectura CAPAS</strong></summary>
-    - Controller (HTTP)  
-    - Service (lógica)  
-    - Repository (R2DBC)  
-    - Soporte: DTO, mapper, validation, advice (errores)
+      - Controller (HTTP)  
+      - Service (lógica)  
+      - Repository (R2DBC)  
+      - Soporte: DTO, mapper, validation, advice (errores)
     </details>
 </details>
 
-<details>
+<details open>
   <summary><strong>Stack</strong></summary>
 
 - **Java 17**, **Spring Boot 3.5.4**  
